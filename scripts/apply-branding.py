@@ -16,9 +16,9 @@ FOOTER = (
 
 BRANDING_CSS = '''
     footer{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:30px;padding:35px 8%;}
-    .psi-membership{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;}
-    .psi-mark{width:22px;height:22px;object-fit:contain;display:block;flex:0 0 auto;}
-    @media(max-width:720px){footer{display:block;padding:28px 7%;}footer span{display:flex;align-items:center;margin-top:8px}.psi-membership{white-space:normal}.psi-mark{width:20px;height:20px;margin-right:0;}}
+    .psi-membership{display:inline-flex;align-items:center;gap:10px;white-space:nowrap;}
+    .psi-mark{width:36px;height:36px;object-fit:contain;display:block;flex:0 0 auto;}
+    @media(max-width:720px){footer{display:block;padding:28px 7%;}footer span{display:flex;align-items:center;margin-top:8px}.psi-membership{white-space:normal;gap:9px}.psi-mark{width:32px;height:32px;margin-right:0;}}
 '''
 
 for name in ("index.html", "contact.html"):
