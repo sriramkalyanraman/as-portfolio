@@ -29,7 +29,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet; then
-            git add index.html contact.html psi-logo.svg psi-logo-footer.png scripts/apply-branding.py
+            git add index.html contact.html psi-logo.svg scripts/apply-branding.py
+            git add -u
             git commit -m "Update PSI membership branding"
             git push
           fi
