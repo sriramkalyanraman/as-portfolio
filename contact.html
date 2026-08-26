@@ -17,16 +17,17 @@
     main{padding:72px 5.5% 100px}.wrap{max-width:1280px;margin:auto}.intro{max-width:790px}.kicker{color:var(--sage-dark);font-size:14px;text-transform:uppercase;letter-spacing:.09em}.intro h1{font:400 clamp(50px,5vw,72px)/1.08 var(--serif);margin:8px 0 22px;letter-spacing:-.02em}.intro p{font-size:17px;color:var(--muted);max-width:720px;margin:0}.rule{width:72px;height:1px;background:var(--sage);margin:30px 0 44px}
     .contact-layout{display:grid;grid-template-columns:1.05fr .8fr;gap:38px;align-items:start}.form-card,.info-card{background:#fffefa;border:1px solid var(--line);border-radius:5px}.form-card{padding:34px 38px}.field{margin-bottom:24px}.field label{display:block;color:var(--sage-dark);font-size:12px;text-transform:uppercase;letter-spacing:.09em;margin:0 0 8px}.required{color:var(--sage)}input,select,textarea{width:100%;border:1px solid #d4d8cf;border-radius:4px;background:#fbfaf6;color:var(--ink);font:15px var(--sans);padding:14px 15px;outline:none;transition:border-color .2s,box-shadow .2s}input:focus,select:focus,textarea:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(125,141,110,.12)}textarea{min-height:145px;resize:vertical}select{appearance:auto}.hint{font-size:12px;color:#7a7d76;margin-top:7px}.submit{border:0;background:var(--sage);color:white;padding:15px 32px;border-radius:6px;font:600 15px var(--sans);cursor:pointer;transition:background .2s,transform .2s}.submit:hover{background:var(--sage-dark);transform:translateY(-1px)}.form-note{font-size:12px;color:#777a73;margin:18px 0 0}
     .info-stack{display:grid;gap:14px}.info-card{padding:25px 27px}.availability{color:var(--sage-dark);font-size:14px;display:flex;align-items:center;gap:9px}.dot{width:7px;height:7px;background:var(--sage);border-radius:50%;display:inline-block}.info-label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--sage-dark);margin-bottom:5px}.info-card a{color:var(--sage-dark);font-size:16px;word-break:break-word}.info-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}.info-card h2{font:400 25px var(--serif);margin:0 0 7px}.privacy{background:#eef2e9}.privacy p{font-size:13px}
-    footer{padding:35px 5.5%;display:flex;justify-content:space-between;gap:30px;font-size:13px;color:#70736d;background:#fffefa;border-top:1px solid var(--line)}
+    footer{flex-direction:column;align-items:center;text-align:center;padding:35px 5.5%;display:flex;justify-content:space-between;gap:30px;font-size:13px;color:#70736d;background:#fffefa;border-top:1px solid var(--line)}
     @media(max-width:1000px){header{padding:0 5%;}.nav{gap:15px;font-size:13px}.contact-layout{grid-template-columns:1fr}.info-stack{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:720px){header{height:auto;padding:18px 5%;align-items:flex-start}.brand-name{font-size:21px}.brand-sub{font-size:13px}.nav{display:none}main{padding:58px 7% 75px}.intro h1{font-size:48px}.intro p{font-size:16px}.rule{margin:25px 0 34px}.form-card{padding:26px 22px}.info-stack{grid-template-columns:1fr}footer{display:block;padding:28px 7%}footer span{display:block;margin-top:8px}}
+    @media(max-width:720px){header{height:auto;padding:18px 5%;align-items:flex-start}.brand-name{font-size:21px}.brand-sub{font-size:13px}.nav{display:none}main{padding:58px 7% 75px}.intro h1{font-size:48px}.intro p{font-size:16px}.rule{margin:25px 0 34px}.form-card{padding:26px 22px}.info-stack{grid-template-columns:1fr}footer{flex-direction:column;align-items:center;text-align:center;display:block;padding:28px 7%}.psi-mark{width:76px;height:76px;object-fit:contain;display:block;margin:12px auto 0}
+    footer span{display:block;margin-top:8px}}
   </style>
 </head>
 <body>
   <header>
     <a class="brand" href="index.html" aria-label="Aishwarya Sreenivasan home">
       <svg class="leaf" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M30 75V35M30 51C17 48 9 40 9 29C20 29 28 35 30 45M30 38C31 23 41 12 54 8C54 22 46 34 30 38M30 60C20 57 14 52 12 45M30 70C40 63 46 55 47 44" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M30 35C24 28 24 20 28 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <div><div class="brand-name">Aishwarya Sreenivasan</div><div class="brand-sub">Graduate Member of the PSI</div></div>
+      <div><div class="brand-name">Aishwarya Sreenivasan</div><div class="brand-sub">Member of the Psychological Society of Ireland (PSI)</div></div>
     </a>
     <nav class="nav" aria-label="Primary navigation"><a href="index.html#about">About</a><a href="index.html#how">How I Work</a><a href="index.html#support">Areas I Support</a><a href="index.html#approaches">Approaches &amp; Skills</a><a href="index.html#experience">Experience</a><a href="index.html#corporate">Corporate Wellbeing</a><a class="cta" href="contact.html">Contact</a></nav>
   </header>
@@ -62,7 +63,8 @@
     </div>
   </main>
 
-  <footer><span>© 2026 Aishwarya Sreenivasan</span><span>Graduate Member of the Psychological Society of Ireland</span></footer>
+  <footer><span>© 2026 Aishwarya Sreenivasan</span><span>Member of the Psychological Society of Ireland (PSI)</span>  <img class="psi-mark" src="psi-logo.svg" alt="The Psychological Society of Ireland logo">
+  </footer>
 
   <script>
     document.getElementById('enquiryForm').addEventListener('submit', function(event) {
