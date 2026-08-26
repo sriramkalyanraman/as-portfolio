@@ -28,6 +28,24 @@ for name in ("index.html", "contact.html"):
     text = text.replace("Graduate Member of the PSI", SUBTITLE)
     text = text.replace("Graduate Member of the Psychological Society of Ireland", SUBTITLE)
 
+    # Give the landing-page hero headline more vertical breathing room.
+    text = text.replace(
+        ".hero h1{font:400 clamp(48px,5vw,74px)/1.08 var(--serif);",
+        ".hero h1{font:400 clamp(48px,5vw,74px)/1.18 var(--serif);"
+    )
+    text = text.replace(
+        ".eyebrow{letter-spacing:.045em;text-transform:uppercase;color:var(--sage-dark);font-size:15px;margin:0 0 25px}",
+        ".eyebrow{letter-spacing:.045em;text-transform:uppercase;color:var(--sage-dark);font-size:15px;margin:0 0 30px}"
+    )
+    text = text.replace(
+        ".rule{width:72px;height:1px;background:var(--sage);margin:38px 0}",
+        ".rule{width:72px;height:1px;background:var(--sage);margin:42px 0}"
+    )
+    text = text.replace(
+        ".hero h1{font-size:48px}",
+        ".hero h1{font-size:48px;line-height:1.15}"
+    )
+
     text = re.sub(r"<footer>.*?</footer>", FOOTER, text, flags=re.DOTALL)
     text = re.sub(r"\s*\.psi-mark\{[^}]*\}", "", text)
     text = re.sub(r"\s*\.psi-membership\{[^}]*\}", "", text)
