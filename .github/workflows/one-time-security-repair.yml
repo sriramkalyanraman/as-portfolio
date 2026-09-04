@@ -1,0 +1,196 @@
+name: One-time security repair
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: true
+
+      - name: Restore known-good homepage and harden repository
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git checkout 1d2b3bcbf8d4e72fd6b46f5461f988f2120a55a8 -- index.html
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          workflow = Path('.github/workflows/pages.yml')
+          workflow.write_text('''name: Deploy static site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Apply site branding
+        run: |
+          python3 scripts/apply-branding.py
+          python3 - <<'PY2'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+          location_re = re.compile(r'\\s*<section class="section soft" id="locations".*?</section>\\s*', re.DOTALL)
+          footer_re = re.compile(r'\\s*<footer>.*?</footer>\\s*', re.DOTALL)
+          location = location_re.search(text)
+          location_html = location.group(0).strip() if location else ''
+          text = location_re.sub('\\n', text)
+          text = footer_re.sub('\\n', text)
+          if location_html:
+              contact_re = re.compile(r'(?=<section\\s+id="contact"\\s+class="section\\s+contact"[^>]*>)')
+              if contact_re.search(text):
+                  text = contact_re.sub(location_html + '\\n', text, count=1)
+              else:
+                  text = text.replace('</main>', location_html + '\\n</main>', 1)
+          text = text.replace('</body>', '<footer><span>© 2026 Aishwarya Sreenivasan</span></footer>\\n</body>', 1)
+          p.write_text(text, encoding='utf-8')
+          PY2
+
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+''', encoding='utf-8')
+
+          Path('.github/dependabot.yml').write_text('''version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+''', encoding='utf-8')
+
+          Path('.github/CODEOWNERS').write_text('''# Security-sensitive repository configuration should be reviewed by the repository owner.
+/.github/workflows/ @sriramkalyanraman
+/.github/dependabot.yml @sriramkalyanraman
+/SECURITY.md @sriramkalyanraman
+''', encoding='utf-8')
+
+          Path('.gitignore').write_text('''# OS/editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Local/runtime files
+.env
+.env.*
+*.log
+*.tmp
+*.bak
+*.old
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Build/deployment output
+_site/
+dist/
+build/
+''', encoding='utf-8')
+
+          Path('SECURITY_BASELINE.md').write_text('''# Security Baseline
+
+This is a static GitHub Pages site. The application attack surface is intentionally small: there is no server-side application, database, authentication system, file upload, or API endpoint owned by the site.
+
+## Repository and supply-chain controls
+
+- GitHub Actions use least-privilege workflow permissions.
+- Pages deployment uses a dedicated `github-pages` environment.
+- Deployment concurrency prevents overlapping Pages deployments.
+- Third-party GitHub Actions are pinned to full immutable commit SHAs.
+- Dependabot monitors GitHub Actions dependencies weekly.
+- CODEOWNERS identifies security-sensitive repository configuration for review.
+- `.gitignore` excludes common secrets, logs, temporary files, and build output.
+- No application secrets are required by the site.
+
+## Website controls
+
+- GitHub Pages provides HTTPS for the custom domain.
+- The site has no user authentication, sessions, database, server-side form processing, or uploads.
+- External links opened in a new tab use opener isolation.
+- Contact input is client-side only and is URL-encoded before the WhatsApp hand-off.
+- Users are warned not to submit sensitive clinical information through the contact flow.
+- Security reporting is documented in `SECURITY.md` and `.well-known/security.txt`.
+
+## Platform controls still requiring GitHub/account administration
+
+Repository branch protection, secret-scanning/push-protection settings, custom-domain verification, HTTPS enforcement, and protected-environment approval rules are GitHub account/repository settings rather than files in the site repository. They should remain enabled where supported.
+''', encoding='utf-8')
+
+          Path('.well-known').mkdir(parents=True, exist_ok=True)
+          Path('.well-known/security.txt').write_text('''Contact: mailto:aishwaryasriram2110@gmail.com
+Preferred-Languages: en
+Canonical: https://aishwaryasreenivasan.site/.well-known/security.txt
+Policy: https://aishwaryasreenivasan.site/SECURITY.md
+''', encoding='utf-8')
+
+          for path in [
+              'test-security-note.txt',
+              'security-review.txt',
+              'security-review.md',
+              'security-review-2026.md',
+              'security-summary.txt',
+              '_headers'
+          ]:
+              p = Path(path)
+              if p.exists():
+                  p.unlink()
+          PY
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html .github/workflows/pages.yml .github/dependabot.yml .github/CODEOWNERS .gitignore SECURITY_BASELINE.md .well-known/security.txt
+          git add -u
+          git commit -m 'Restore homepage and harden repository supply chain' || exit 0
+          git push origin HEAD:main
