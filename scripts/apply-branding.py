@@ -2,6 +2,7 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
+SITE_URL = "https://aishwaryasreenivasan.site"
 SUBTITLE = "Member of the Psychological Society of Ireland (PSI)"
 
 FOOTER = (
@@ -13,6 +14,61 @@ FOOTER = (
     '</span>'
     '</footer>'
 )
+
+LOCATION_SECTION = '''
+<section class="section soft" id="locations" aria-labelledby="locations-title">
+  <div class="section-inner">
+    <div class="section-kicker">Ireland</div>
+    <h2 id="locations-title">Psychological support in Ireland</h2>
+    <p>
+      Aishwarya Sreenivasan provides psychological assessment and therapy for young people and adults,
+      alongside wellbeing solutions for organisations. This site is relevant to people looking for
+      psychological support in Ireland, including Limerick, County Clare and Killaloe.
+    </p>
+    <div class="grid-3">
+      <article class="card">
+        <h3>Psychologist in Limerick</h3>
+        <p>Information about psychological assessment, therapy and wellbeing support for people searching for a psychologist in Limerick.</p>
+      </article>
+      <article class="card">
+        <h3>Psychologist in County Clare</h3>
+        <p>Explore psychological support and evidence-based approaches for people searching for a psychologist in County Clare.</p>
+      </article>
+      <article class="card">
+        <h3>Psychologist in Killaloe</h3>
+        <p>Learn more about psychological support for people in and around Killaloe who are looking for a psychologist.</p>
+      </article>
+    </div>
+  </div>
+</section>
+'''
+
+SEO_SCHEMA = '''
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Aishwarya Sreenivasan",
+  "jobTitle": "Psychologist",
+  "url": "https://aishwaryasreenivasan.site/",
+  "email": "mailto:aishwaryasriram2110@gmail.com",
+  "sameAs": [
+    "https://www.linkedin.com/in/aishwarya-sreenivasan-62686122/"
+  ],
+  "memberOf": {
+    "@type": "Organization",
+    "name": "Psychological Society of Ireland",
+    "alternateName": "PSI"
+  },
+  "knowsAbout": [
+    "Psychological assessment",
+    "Psychological therapy",
+    "Psychological wellbeing",
+    "Workplace wellbeing"
+  ]
+}
+</script>
+'''
 
 BRANDING_CSS = '''
     footer{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:30px;padding:35px 8%;}
@@ -78,7 +134,47 @@ for name in ("index.html", "contact.html"):
     text = text.replace("Graduate Member of the PSI", SUBTITLE)
     text = text.replace("Graduate Member of the Psychological Society of Ireland", SUBTITLE)
 
-    # Give the landing-page hero headline more vertical breathing room.
+    if name == "index.html":
+        title = "Aishwarya Sreenivasan | Psychologist in Ireland"
+        description = (
+            "Aishwarya Sreenivasan provides psychological assessment and therapy for young people and adults, "
+            "plus psychological wellbeing solutions for organisations in Ireland."
+        )
+        canonical = SITE_URL + "/"
+    else:
+        title = "Contact Aishwarya Sreenivasan | Psychologist in Ireland"
+        description = (
+            "Contact Aishwarya Sreenivasan about psychological assessment, therapy and workplace wellbeing support in Ireland."
+        )
+        canonical = SITE_URL + "/contact.html"
+
+    text = re.sub(r"<title>.*?</title>", f"<title>{title}</title>", text, count=1, flags=re.DOTALL)
+    text = re.sub(
+        r'<meta\s+name="description"\s+content="[^"]*">',
+        f'<meta name="description" content="{description}">',
+        text,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+    text = re.sub(r'\s*<link rel="canonical" href="[^"]*"\s*/?>', "", text)
+    text = re.sub(r'\s*<meta property="og:[^"]*" content="[^"]*"\s*/?>', "", text)
+    text = re.sub(r'\s*<meta name="twitter:[^"]*" content="[^"]*"\s*/?>', "", text)
+    text = re.sub(r'\s*<script type="application/ld\+json">\s*\{.*?\}\s*</script>', "", text, flags=re.DOTALL)
+
+    social = f'''
+  <link rel="canonical" href="{canonical}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="{canonical}">
+  <meta property="og:site_name" content="Aishwarya Sreenivasan | Psychology">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:description" content="{description}">
+'''
+    text = text.replace("</head>", social + SEO_SCHEMA + "\n</head>", 1)
+
     text = text.replace(
         ".hero h1{font:400 clamp(48px,5vw,74px)/1.08 var(--serif);",
         ".hero h1{font:400 clamp(48px,5vw,74px)/1.18 var(--serif);"
@@ -96,13 +192,14 @@ for name in ("index.html", "contact.html"):
         ".hero h1{font-size:48px;line-height:1.15}"
     )
 
-    text = re.sub(r"<footer>.*?</footer>", FOOTER, text, flags=re.DOTALL)
-    text = re.sub(r"\s*\.psi-mark\{[^}]*\}", "", text)
-    text = re.sub(r"\s*\.psi-membership\{[^}]*\}", "", text)
-    text = re.sub(r"\s*footer\{[^}]*\}", "", text)
-    text = re.sub(r"\s*@media\(max-width:720px\)\{footer\{display:block[^}]*\}footer span\{[^}]*\}[^}]*\}", "", text)
-    if BRANDING_CSS.strip() not in text:
+    if name == "index.html" and 'id="locations"' not in text:
+        text = text.replace("<footer>", LOCATION_SECTION + "\n" + FOOTER, 1)
+    else:
+        text = re.sub(r"<footer>.*?</footer>", FOOTER, text, flags=re.DOTALL)
+
+    if "/* Keep the hero image inside the hero row at every desktop zoom level. */" not in text:
         text = text.replace("</style>", BRANDING_CSS + "</style>", 1)
+
     path.write_text(text, encoding="utf-8")
 
 old_logo = ROOT / "psi-logo-footer.png"
