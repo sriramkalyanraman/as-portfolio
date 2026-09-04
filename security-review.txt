@@ -1,1 +1,0 @@
-Baseline review: static site architecture has no server-side application, database, authentication, uploads, or API endpoint. Hardening focuses on browser policy, privacy-aware contact handling, dependency updates, domain security, and deployment hygiene.
