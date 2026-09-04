@@ -78,10 +78,10 @@ BRANDING_CSS = '''
     .mobile-menu{z-index:1001;}
     html{scroll-padding-top:108px;}
 
-    /* Keep the hero image inside the hero row at every desktop zoom level. */
+    /* Keep the hero image fully inside its panel instead of cropping/overflowing a large source image. */
     .hero{height:auto !important;min-height:0 !important;}
-    .hero-image{height:auto !important;min-height:0 !important;align-self:stretch;aspect-ratio:1.15 / 1;overflow:hidden;}
-    .hero-image img{width:100%;height:100%;max-width:none;min-width:0;min-height:0;display:block;object-fit:cover;object-position:center top;image-rendering:auto;-webkit-backface-visibility:hidden;backface-visibility:hidden;}
+    .hero-image{height:auto !important;min-height:0 !important;align-self:stretch;aspect-ratio:1 / 1.04;overflow:hidden;padding:22px 26px;background:#e8e3d8;display:flex;align-items:center;justify-content:center;}
+    .hero-image img{width:100%;height:100%;max-width:100%;max-height:100%;min-width:0;min-height:0;display:block;object-fit:contain;object-position:center center;image-rendering:auto;-webkit-backface-visibility:hidden;backface-visibility:hidden;}
 
     /* Responsive safety: prevent horizontal overflow and keep every section inside the viewport. */
     html,body{width:100%;max-width:100%;overflow-x:hidden;}
@@ -92,7 +92,7 @@ BRANDING_CSS = '''
     @media(max-width:1180px){
       body{padding-top:94px;}
       .mobile-menu{top:94px;}
-      .hero-image{aspect-ratio:1.15 / 1;}
+      .hero-image{aspect-ratio:1 / 1.04;padding:18px 22px;}
     }
 
     @media(max-width:720px){
@@ -113,7 +113,7 @@ BRANDING_CSS = '''
       .value h3,.card h3,.section h2{overflow-wrap:anywhere;}
       .actions{max-width:100%;}
       .button{max-width:100%;}
-      .hero-image{width:100%;height:auto !important;min-height:0 !important;max-height:none !important;aspect-ratio:4 / 3;}
+      .hero-image{width:100%;height:auto !important;min-height:0 !important;max-height:none !important;aspect-ratio:4 / 3;padding:12px 16px;}
       .grid-3{width:100%;}
       .card{width:100%;}
       .contact-box{min-width:0;width:100%;}
@@ -195,7 +195,9 @@ for name in ("index.html", "contact.html"):
 
     if name == "index.html":
         # Put the Ireland/local SEO section immediately before the contact section.
-        contact_match = re.search(r'<section class="section contact"', text)
+        contact_match = re.search(r'<section\b[^>]*\bid="contact"\b[^>]*\bclass="section contact"', text)
+        if not contact_match:
+            contact_match = re.search(r'<section\b[^>]*\bclass="section contact"[^>]*\bid="contact"', text)
         if contact_match:
             text = text[:contact_match.start()] + LOCATION_SECTION + "\n" + text[contact_match.start():]
         else:
@@ -204,7 +206,7 @@ for name in ("index.html", "contact.html"):
     else:
         text = text.replace("</body>", FOOTER + "\n</body>", 1)
 
-    if "/* Keep the hero image inside the hero row at every desktop zoom level. */" not in text:
+    if "/* Keep the hero image fully inside its panel instead of cropping/overflowing a large source image. */" not in text:
         text = text.replace("</style>", BRANDING_CSS + "</style>", 1)
 
     path.write_text(text, encoding="utf-8")
