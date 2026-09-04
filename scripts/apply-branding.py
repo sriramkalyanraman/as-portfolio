@@ -5,13 +5,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE_URL = "https://aishwaryasreenivasan.site"
 SUBTITLE = "Member of the Psychological Society of Ireland (PSI)"
 
+# Keep the footer focused on copyright; PSI membership is already shown in the header.
 FOOTER = (
     '<footer>'
     '<span>© 2026 Aishwarya Sreenivasan</span>'
-    '<span class="psi-membership">'
-    '<img class="psi-mark" src="psi-logo.svg" alt="" aria-hidden="true">'
-    f'{SUBTITLE}'
-    '</span>'
     '</footer>'
 )
 
@@ -197,7 +194,13 @@ for name in ("index.html", "contact.html"):
     text = re.sub(r'\s*<footer>.*?</footer>\s*', "\n", text, flags=re.DOTALL)
 
     if name == "index.html":
-        text = text.replace("</body>", LOCATION_SECTION + "\n" + FOOTER + "\n</body>", 1)
+        # Put the Ireland/local SEO section immediately before the contact section.
+        contact_match = re.search(r'<section class="section contact"', text)
+        if contact_match:
+            text = text[:contact_match.start()] + LOCATION_SECTION + "\n" + text[contact_match.start():]
+        else:
+            text = text.replace("</body>", LOCATION_SECTION + "\n" + FOOTER + "\n</body>", 1)
+        text = text.replace("</body>", FOOTER + "\n</body>", 1)
     else:
         text = text.replace("</body>", FOOTER + "\n</body>", 1)
 
