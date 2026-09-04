@@ -1,0 +1,4 @@
+# Require owner review for security-sensitive repository configuration.
+/.github/workflows/ @sriramkalyanraman
+/.github/dependabot.yml @sriramkalyanraman
+/SECURITY.md @sriramkalyanraman
