@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -26,18 +26,40 @@ jobs:
       - name: Apply site branding
         run: |
           python3 scripts/apply-branding.py
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet; then
-            git add index.html contact.html psi-logo.svg scripts/apply-branding.py
-            git add -u
-            git commit -m "Update PSI membership branding"
-            git push
-          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          text = p.read_text(encoding='utf-8')
+
+          # Normalize the generated local SEO section and footer so the published
+          # HTML has exactly one footer and the Ireland section sits before Contact.
+          location_re = re.compile(r'\s*<section class="section soft" id="locations".*?</section>\s*', re.DOTALL)
+          footer_re = re.compile(r'\s*(?:<footer>.*?</footer>|<span>© 2026 Aishwarya Sreenivasan</span><span class="psi-membership">.*?</span>\s*</footer>)\s*', re.DOTALL)
+
+          location = location_re.search(text)
+          location_html = location.group(0).strip() if location else ''
+          text = location_re.sub('\n', text)
+          text = footer_re.sub('\n', text)
+          text = re.sub(r'\s*<span>© 2026 Aishwarya Sreenivasan</span>\s*<span class="psi-membership">.*?</span>\s*</footer>\s*', '\n', text, flags=re.DOTALL)
+          text = re.sub(r'\s*</?footer>\s*', '\n', text)
+
+          if location_html:
+              contact_re = re.compile(r'(?=<section\s+id="contact"\s+class="section\s+contact"[^>]*>)')
+              if contact_re.search(text):
+                  text = contact_re.sub(location_html + '\n', text, count=1)
+              else:
+                  text = text.replace('</main>', location_html + '\n</main>', 1)
+
+          footer = '<footer><span>© 2026 Aishwarya Sreenivasan</span></footer>\n'
+          text = text.replace('</body>', footer + '</body>', 1)
+          p.write_text(text, encoding='utf-8')
+          PY
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: .
       - name: Deploy to GitHub Pages
