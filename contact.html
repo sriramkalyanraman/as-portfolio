@@ -12,59 +12,32 @@
   <style>
     :root{--cream:#f7f5ef;--paper:#fffefa;--sage:#7d8d6e;--sage-dark:#65765a;--ink:#343534;--muted:#62655f;--line:#deded7;--serif:'Playfair Display',Georgia,serif;--sans:'DM Sans',Arial,sans-serif}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);line-height:1.7}a{color:inherit;text-decoration:none}
-    header{height:116px;display:flex;align-items:center;justify-content:space-between;padding:0 4.1%;border-bottom:1px solid #eee;background:rgba(255,254,250,.97);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
-    .brand{display:flex;align-items:center;gap:18px}.leaf{width:42px;height:56px;color:var(--sage)}.brand-name{font:400 28px/1.15 var(--serif)}.brand-sub{font-size:15px;margin-top:6px}.nav{display:flex;align-items:center;gap:28px;font-size:15px}.nav a:hover{color:var(--sage-dark)}.cta{background:var(--sage);color:white;padding:14px 28px;border-radius:6px}.cta:hover{color:white;background:var(--sage-dark)}
+
+    header{height:108px;display:flex;align-items:center;justify-content:space-between;gap:clamp(28px,4vw,76px);padding:0 clamp(28px,4.1vw,80px);border-bottom:1px solid #eee;background:rgba(255,254,250,.97);position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}
+    .brand{display:flex;align-items:center;gap:16px;flex:0 0 auto;min-width:0}.leaf{width:40px;height:54px;color:var(--sage);flex:0 0 auto}.brand-name{font:400 26px/1.18 var(--serif);white-space:nowrap}.brand-sub{font-size:13px;line-height:1.4;margin-top:5px;color:#3e413e;white-space:nowrap}
+    .nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(16px,1.25vw,26px);font-size:clamp(13px,.78vw,15px);white-space:nowrap}.nav a{transition:color .2s}.nav a:hover{color:var(--sage-dark)}.nav .cta{background:var(--sage);color:white;padding:13px 23px;border-radius:6px;margin-left:4px}.nav .cta:hover{color:white;background:var(--sage-dark)}
+    .menu-toggle{display:none;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:6px;width:44px;height:44px;align-items:center;justify-content:center;cursor:pointer;font-size:22px;line-height:1;padding:0}.mobile-menu{display:none}
+
     main{padding:72px 5.5% 100px}.wrap{max-width:1280px;margin:auto}.intro{max-width:790px}.kicker{color:var(--sage-dark);font-size:14px;text-transform:uppercase;letter-spacing:.09em}.intro h1{font:400 clamp(50px,5vw,72px)/1.08 var(--serif);margin:8px 0 22px;letter-spacing:-.02em}.intro p{font-size:17px;color:var(--muted);max-width:720px;margin:0}.rule{width:72px;height:1px;background:var(--sage);margin:30px 0 44px}
     .contact-layout{display:grid;grid-template-columns:1.05fr .8fr;gap:38px;align-items:start}.form-card,.info-card{background:#fffefa;border:1px solid var(--line);border-radius:5px}.form-card{padding:34px 38px}.field{margin-bottom:24px}.field label{display:block;color:var(--sage-dark);font-size:12px;text-transform:uppercase;letter-spacing:.09em;margin:0 0 8px}.required{color:var(--sage)}input,select,textarea{width:100%;border:1px solid #d4d8cf;border-radius:4px;background:#fbfaf6;color:var(--ink);font:15px var(--sans);padding:14px 15px;outline:none;transition:border-color .2s,box-shadow .2s}input:focus,select:focus,textarea:focus{border-color:var(--sage);box-shadow:0 0 0 3px rgba(125,141,110,.12)}textarea{min-height:145px;resize:vertical}select{appearance:auto}.hint{font-size:12px;color:#7a7d76;margin-top:7px}.submit{border:0;background:var(--sage);color:white;padding:15px 32px;border-radius:6px;font:600 15px var(--sans);cursor:pointer;transition:background .2s,transform .2s}.submit:hover{background:var(--sage-dark);transform:translateY(-1px)}.form-note{font-size:12px;color:#777a73;margin:18px 0 0}
     .info-stack{display:grid;gap:14px}.info-card{padding:25px 27px}.availability{color:var(--sage-dark);font-size:14px;display:flex;align-items:center;gap:9px}.dot{width:7px;height:7px;background:var(--sage);border-radius:50%;display:inline-block}.info-label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--sage-dark);margin-bottom:5px}.info-card a{color:var(--sage-dark);font-size:16px;word-break:break-word}.info-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}.info-card h2{font:400 25px var(--serif);margin:0 0 7px}.privacy{background:#eef2e9}.privacy p{font-size:13px}
-    @media(max-width:1000px){header{padding:0 5%;}.nav{gap:15px;font-size:13px}.contact-layout{grid-template-columns:1fr}.info-stack{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:720px){header{height:auto;padding:18px 5%;align-items:flex-start}.brand-name{font-size:21px}.brand-sub{font-size:13px}.nav{display:none}main{padding:58px 7% 75px}.intro h1{font-size:48px}.intro p{font-size:16px}.rule{margin:25px 0 34px}.form-card{padding:26px 22px}.info-stack{grid-template-columns:1fr}
-    footer span{display:block;margin-top:8px}}
-    @media(max-width:720px){footer span{display:flex;align-items:center;margin-top:8px}}
-    @media(max-width:720px){footer span{display:flex;align-items:center;margin-top:8px}}
-    @media(max-width:720px){footer span{display:flex;align-items:center;margin-top:10px}}
-    @media(max-width:720px){footer span{display:flex;align-items:center;margin-top:10px}}
-    @media(max-width:720px){footer span{display:flex;align-items:center;margin-top:10px}}
-    @media(max-width:720px){footer span{display:flex;align-items:center;margin-top:10px}}
-    @media(max-width:720px){footer span{display:flex;align-items:center;margin-top:10px}}
 
-    footer{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:30px;padding:35px 8%;}
-    .psi-membership{display:inline-flex;align-items:center;gap:12px;white-space:nowrap;}
-    .psi-mark{width:48px;height:48px;object-fit:contain;display:block;flex:0 0 auto;}
+    footer{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:30px;padding:35px 8%;width:100%;overflow:hidden}.psi-membership{display:inline-flex;align-items:center;gap:12px;white-space:nowrap}.psi-mark{width:48px;height:48px;object-fit:contain;display:block;flex:0 0 auto}
 
-    /* Responsive safety: prevent horizontal overflow and keep every section inside the viewport. */
-    html,body{width:100%;max-width:100%;overflow-x:hidden;}
-    header{width:100%;min-width:0;}
-    img,svg{max-width:100%;}
-    .hero-copy,.hero-image,.values,.value,section,.section-inner,.grid-3,.card,.contact-wrap,.contact-box{min-width:0;}
+    html,body{width:100%;max-width:100%;overflow-x:hidden}header{width:100%;min-width:0}img,svg{max-width:100%}.wrap,.intro,.contact-layout,.form-card,.info-stack,.info-card{min-width:0}
+
+    @media(max-width:1180px){
+      header{height:94px;padding:0 5%;gap:24px}.brand-name{font-size:23px}.brand-sub{font-size:12px}.menu-toggle{display:flex}.nav{display:none}
+      .mobile-menu{position:absolute;top:94px;left:5%;right:5%;background:var(--paper);border:1px solid var(--line);border-radius:0 0 8px 8px;box-shadow:0 16px 30px rgba(0,0,0,.08);padding:10px;display:none;flex-direction:column;gap:2px}.mobile-menu.open{display:flex}.mobile-menu a{padding:13px 12px;border-radius:5px;font-size:15px}.mobile-menu a:hover{background:var(--cream)}.mobile-menu .cta{margin:4px 0 2px;text-align:center;background:var(--sage);color:#fff}
+      .contact-layout{grid-template-columns:1fr}.info-stack{grid-template-columns:repeat(2,1fr)}
+    }
 
     @media(max-width:720px){
-      header{display:flex;width:100%;height:78px;padding:12px 16px;gap:10px;align-items:center;}
-      .brand{min-width:0;max-width:calc(100% - 54px);flex:1 1 auto;gap:10px;}
-      .brand>div{min-width:0;overflow:hidden;}
-      .leaf{width:32px;height:44px;flex:0 0 32px;}
-      .brand-name{font-size:20px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-      .brand-sub{font-size:11px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px;}
-      .menu-toggle{display:flex;flex:0 0 44px;width:44px;height:44px;}
-      .mobile-menu{top:78px;left:16px;right:16px;width:auto;max-width:none;}
-      .hero-copy,.values,section{width:100%;overflow:hidden;}
-      .hero-copy{padding:58px 7% 50px;}
-      .hero h1{font-size:clamp(40px,11vw,48px);line-height:1.16;overflow-wrap:anywhere;}
-      .eyebrow{overflow-wrap:anywhere;}
-      .hero-copy p,.value p,.card p,.section p{overflow-wrap:anywhere;}
-      .value h3,.card h3,.section h2{overflow-wrap:anywhere;}
-      .actions{max-width:100%;}
-      .button{max-width:100%;}
-      .hero-image{width:100%;height:118vw;min-height:360px;max-height:620px;}
-      .grid-3{width:100%;}
-      .card{width:100%;}
-      .contact-box{min-width:0;width:100%;}
-      footer{width:100%;padding:28px 7%;overflow:hidden;}
-      footer span{min-width:0;max-width:100%;}
-      .psi-membership{white-space:normal;gap:10px;overflow-wrap:anywhere;}
-      .psi-mark{width:44px;height:44px;flex:0 0 44px;}
+      header{display:flex;width:100%;height:78px;padding:12px 16px;gap:10px;align-items:center}.brand{min-width:0;max-width:calc(100% - 54px);flex:1 1 auto;gap:10px}.brand>div{min-width:0;overflow:hidden}.leaf{width:32px;height:44px;flex:0 0 32px}.brand-name{font-size:20px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand-sub{font-size:11px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}.menu-toggle{display:flex;flex:0 0 44px;width:44px;height:44px}.mobile-menu{top:78px;left:16px;right:16px;width:auto;max-width:none}
+      main{padding:58px 7% 75px}.intro{max-width:100%}.intro h1{font-size:clamp(42px,11vw,50px);line-height:1.12;overflow-wrap:anywhere}.intro p{font-size:16px;overflow-wrap:anywhere}.rule{margin:25px 0 34px}.form-card{padding:26px 22px;width:100%}.contact-layout{width:100%;grid-template-columns:1fr}.info-stack{grid-template-columns:1fr}.field{margin-bottom:22px}input,select,textarea{max-width:100%}.submit{max-width:100%}
+      footer{padding:28px 7%;flex-direction:column;align-items:flex-start;gap:12px}.psi-membership{white-space:normal;gap:10px;overflow-wrap:anywhere}.psi-mark{width:52px;height:52px;flex:0 0 52px}
     }
-</style>
+  </style>
 </head>
 <body>
   <header>
@@ -72,7 +45,11 @@
       <svg class="leaf" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M30 75V35M30 51C17 48 9 40 9 29C20 29 28 35 30 45M30 38C31 23 41 12 54 8C54 22 46 34 30 38M30 60C20 57 14 52 12 45M30 70C40 63 46 55 47 44" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M30 35C24 28 24 20 28 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       <div><div class="brand-name">Aishwarya Sreenivasan</div><div class="brand-sub">Member of the Psychological Society of Ireland (PSI)</div></div>
     </a>
-    <nav class="nav" aria-label="Primary navigation"><a href="index.html#about">About</a><a href="index.html#how">How I Work</a><a href="index.html#support">Areas I Support</a><a href="index.html#approaches">Approaches &amp; Skills</a><a href="index.html#experience">Experience</a><a href="index.html#corporate">Corporate Wellbeing</a><a class="cta" href="contact.html">Contact</a></nav>
+    <nav class="nav" aria-label="Primary navigation"><a href="index.html#about">About</a><a href="index.html#how">How I Work</a><a href="index.html#support">Areas I Support</a><a href="index.html#approaches">Approaches &amp; Skills</a><a href="index.html#experience">Experience</a><a href="index.html#corporate">Corporate Wellbeing</a><a href="contact.html">Contact</a><a class="cta" href="contact.html">Get in Touch</a></nav>
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+      <a href="index.html#about">About</a><a href="index.html#how">How I Work</a><a href="index.html#support">Areas I Support</a><a href="index.html#approaches">Approaches &amp; Skills</a><a href="index.html#experience">Experience</a><a href="index.html#corporate">Corporate Wellbeing</a><a href="contact.html">Contact</a><a class="cta" href="contact.html">Get in Touch</a>
+    </nav>
   </header>
 
   <main>
@@ -109,6 +86,21 @@
   <footer><span>© 2026 Aishwarya Sreenivasan</span><span class="psi-membership"><img class="psi-mark" src="psi-logo.svg" alt="" aria-hidden="true">Member of the Psychological Society of Ireland (PSI)</span></footer>
 
   <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', function(){
+      const open = mobileMenu.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){
+        mobileMenu.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Open navigation');
+      });
+    });
+
     document.getElementById('enquiryForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const name = document.getElementById('name').value.trim();
