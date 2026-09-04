@@ -192,10 +192,14 @@ for name in ("index.html", "contact.html"):
         ".hero h1{font-size:48px;line-height:1.15}"
     )
 
-    if name == "index.html" and 'id="locations"' not in text:
-        text = text.replace("<footer>", LOCATION_SECTION + "\n" + FOOTER, 1)
+    # Remove any prior generated location section/footer so repeated workflow runs stay valid.
+    text = re.sub(r'\s*<section class="section soft" id="locations".*?</section>\s*', "\n", text, flags=re.DOTALL)
+    text = re.sub(r'\s*<footer>.*?</footer>\s*', "\n", text, flags=re.DOTALL)
+
+    if name == "index.html":
+        text = text.replace("</body>", LOCATION_SECTION + "\n" + FOOTER + "\n</body>", 1)
     else:
-        text = re.sub(r"<footer>.*?</footer>", FOOTER, text, flags=re.DOTALL)
+        text = text.replace("</body>", FOOTER + "\n</body>", 1)
 
     if "/* Keep the hero image inside the hero row at every desktop zoom level. */" not in text:
         text = text.replace("</style>", BRANDING_CSS + "</style>", 1)
