@@ -1,0 +1,1 @@
+Baseline review completed for the static GitHub Pages architecture.
