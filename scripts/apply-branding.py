@@ -19,6 +19,11 @@ BRANDING_CSS = '''
     .psi-membership{display:inline-flex;align-items:center;gap:12px;white-space:nowrap;}
     .psi-mark{width:48px;height:48px;object-fit:contain;display:block;flex:0 0 auto;}
 
+    /* Keep the site title/navigation bar visible while scrolling. */
+    header{position:sticky !important;top:0 !important;z-index:1000 !important;background:rgba(255,254,250,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+    .mobile-menu{z-index:1001;}
+    html{scroll-padding-top:108px;}
+
     /* Responsive safety: prevent horizontal overflow and keep every section inside the viewport. */
     html,body{width:100%;max-width:100%;overflow-x:hidden;}
     header{width:100%;min-width:0;}
