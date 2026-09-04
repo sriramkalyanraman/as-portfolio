@@ -78,9 +78,9 @@ BRANDING_CSS = '''
     .mobile-menu{z-index:1001;}
     html{scroll-padding-top:108px;}
 
-    /* Keep the hero image fully inside its panel instead of cropping/overflowing a large source image. */
+    /* Use the repository's full hero-portrait-warm.png asset, scaled only as needed to fit the hero panel bounds. */
     .hero{height:auto !important;min-height:0 !important;}
-    .hero-image{height:auto !important;min-height:0 !important;align-self:stretch;aspect-ratio:1 / 1.04;overflow:hidden;padding:22px 26px;background:#e8e3d8;display:flex;align-items:center;justify-content:center;}
+    .hero-image{height:auto !important;min-height:0 !important;align-self:stretch;aspect-ratio:1 / 1.04;overflow:hidden;padding:0;background:#e8e3d8;display:flex;align-items:center;justify-content:center;box-sizing:border-box;}
     .hero-image img{width:100%;height:100%;max-width:100%;max-height:100%;min-width:0;min-height:0;display:block;object-fit:contain;object-position:center center;image-rendering:auto;-webkit-backface-visibility:hidden;backface-visibility:hidden;}
 
     /* Responsive safety: prevent horizontal overflow and keep every section inside the viewport. */
@@ -92,7 +92,7 @@ BRANDING_CSS = '''
     @media(max-width:1180px){
       body{padding-top:94px;}
       .mobile-menu{top:94px;}
-      .hero-image{aspect-ratio:1 / 1.04;padding:18px 22px;}
+      .hero-image{aspect-ratio:1 / 1.04;padding:0;}
     }
 
     @media(max-width:720px){
@@ -113,7 +113,7 @@ BRANDING_CSS = '''
       .value h3,.card h3,.section h2{overflow-wrap:anywhere;}
       .actions{max-width:100%;}
       .button{max-width:100%;}
-      .hero-image{width:100%;height:auto !important;min-height:0 !important;max-height:none !important;aspect-ratio:4 / 3;padding:12px 16px;}
+      .hero-image{width:100%;height:auto !important;min-height:0 !important;max-height:none !important;aspect-ratio:4 / 3;padding:0;}
       .grid-3{width:100%;}
       .card{width:100%;}
       .contact-box{min-width:0;width:100%;}
@@ -206,7 +206,7 @@ for name in ("index.html", "contact.html"):
     else:
         text = text.replace("</body>", FOOTER + "\n</body>", 1)
 
-    if "/* Keep the hero image fully inside its panel instead of cropping/overflowing a large source image. */" not in text:
+    if "/* Use the repository's full hero-portrait-warm.png asset, scaled only as needed to fit the hero panel bounds. */" not in text:
         text = text.replace("</style>", BRANDING_CSS + "</style>", 1)
 
     path.write_text(text, encoding="utf-8")
