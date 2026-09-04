@@ -1,0 +1,25 @@
+# OS/editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Local/runtime files
+.env
+.env.*
+*.log
+*.tmp
+*.bak
+*.old
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Build/deployment output
+_site/
+dist/
+build/
