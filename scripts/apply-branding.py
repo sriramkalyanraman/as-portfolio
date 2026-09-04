@@ -83,6 +83,14 @@ BRANDING_CSS = '''
     .hero-image{height:auto !important;min-height:0 !important;align-self:stretch;aspect-ratio:1 / 1.04;overflow:hidden;padding:0;background:#e8e3d8;display:flex;align-items:center;justify-content:center;box-sizing:border-box;}
     .hero-image img{width:100%;height:100%;max-width:100%;max-height:100%;min-width:0;min-height:0;display:block;object-fit:contain;object-position:center center;image-rendering:auto;-webkit-backface-visibility:hidden;backface-visibility:hidden;}
 
+    /* Make the four value blocks substantially easier to read at desktop widths. */
+    .values{padding:48px 5.5% !important;gap:0 !important;}
+    .value{padding:8px 32px 12px !important;min-height:170px;}
+    .value + .value{border-left:1px solid var(--line);}
+    .value-icon{width:54px !important;height:54px !important;margin-bottom:20px !important;}
+    .value h3{font-size:24px !important;line-height:1.25 !important;margin-bottom:12px !important;}
+    .value p{font-size:17px !important;line-height:1.65 !important;max-width:360px;}
+
     /* Responsive safety: prevent horizontal overflow and keep every section inside the viewport. */
     html,body{width:100%;max-width:100%;overflow-x:hidden;}
     header{width:100%;min-width:0;}
@@ -93,6 +101,10 @@ BRANDING_CSS = '''
       body{padding-top:94px;}
       .mobile-menu{top:94px;}
       .hero-image{aspect-ratio:1 / 1.04;padding:0;}
+      .values{padding:42px 4% !important;}
+      .value{padding:8px 22px 12px !important;}
+      .value h3{font-size:22px !important;}
+      .value p{font-size:16px !important;line-height:1.6 !important;}
     }
 
     @media(max-width:720px){
@@ -114,6 +126,12 @@ BRANDING_CSS = '''
       .actions{max-width:100%;}
       .button{max-width:100%;}
       .hero-image{width:100%;height:auto !important;min-height:0 !important;max-height:none !important;aspect-ratio:4 / 3;padding:0;}
+      .values{display:grid !important;grid-template-columns:1fr !important;padding:32px 7% !important;gap:0 !important;}
+      .value{padding:24px 0 26px !important;min-height:0;}
+      .value + .value{border-left:0;border-top:1px solid var(--line);}
+      .value-icon{width:52px !important;height:52px !important;margin-bottom:16px !important;}
+      .value h3{font-size:23px !important;line-height:1.3 !important;margin-bottom:10px !important;}
+      .value p{font-size:17px !important;line-height:1.6 !important;max-width:620px;}
       .grid-3{width:100%;}
       .card{width:100%;}
       .contact-box{min-width:0;width:100%;}
