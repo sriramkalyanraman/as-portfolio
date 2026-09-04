@@ -19,8 +19,9 @@ BRANDING_CSS = '''
     .psi-membership{display:inline-flex;align-items:center;gap:12px;white-space:nowrap;}
     .psi-mark{width:48px;height:48px;object-fit:contain;display:block;flex:0 0 auto;}
 
-    /* Keep the site title/navigation bar visible while scrolling. */
-    header{position:sticky !important;top:0 !important;z-index:1000 !important;background:rgba(255,254,250,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+    /* Keep the site title/navigation bar permanently visible while scrolling. */
+    header{position:fixed !important;top:0 !important;left:0 !important;right:0 !important;width:100% !important;z-index:1000 !important;background:rgba(255,254,250,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+    body{padding-top:108px;}
     .mobile-menu{z-index:1001;}
     html{scroll-padding-top:108px;}
 
@@ -30,8 +31,14 @@ BRANDING_CSS = '''
     img,svg{max-width:100%;}
     .hero-copy,.hero-image,.values,.value,section,.section-inner,.grid-3,.card,.contact-wrap,.contact-box{min-width:0;}
 
+    @media(max-width:1180px){
+      body{padding-top:94px;}
+      .mobile-menu{top:94px;}
+    }
+
     @media(max-width:720px){
       header{display:flex;width:100%;height:78px;padding:12px 16px;gap:10px;align-items:center;}
+      body{padding-top:78px;}
       .brand{min-width:0;max-width:calc(100% - 54px);flex:1 1 auto;gap:10px;}
       .brand>div{min-width:0;overflow:hidden;}
       .leaf{width:32px;height:44px;flex:0 0 32px;}
