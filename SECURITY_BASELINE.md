@@ -1,24 +1,37 @@
 # Website Security Baseline
 
-## Implemented
+## Repository and supply-chain controls implemented
 
-- HTTPS/custom-domain deployment through GitHub Pages
-- No server-side application, database, authentication, or file-upload surface
-- External links opened in new tabs use `rel="noopener"`
-- Contact form uses client-side required fields and opens WhatsApp rather than posting to a site-owned backend
-- Sensitive clinical information warning on the contact page
-- Security contact and disclosure policy
-- Dependabot monitoring for GitHub Actions dependencies
-- Security-policy meta directives are intended for the static pages where supported by the browser
+- GitHub Actions use least-privilege workflow permissions.
+- The Pages workflow uses the dedicated `github-pages` environment.
+- Pages deployments use a single concurrency group and do not overlap.
+- Third-party Pages Actions are pinned to full immutable commit SHAs.
+- `actions/checkout` does not persist the repository token into the checked-out Git configuration during deployment.
+- Dependabot checks GitHub Actions dependencies weekly.
+- CODEOWNERS marks workflow and security configuration for owner review.
+- `.gitignore` excludes common environment files, logs, temporary files, editor files, and build output.
+- The website does not require application secrets.
 
-## Platform controls
+## Website controls
 
-GitHub Pages controls the TLS certificate and hosting response headers. Header-level controls should be verified against the live domain after deployment.
+- HTTPS/custom-domain deployment is provided by GitHub Pages.
+- The site has no server-side application, database, authentication, session, or file-upload surface.
+- External links opened in new tabs use opener isolation.
+- Contact data is URL-encoded before the WhatsApp hand-off and is not posted to a site-owned backend.
+- Users are warned not to submit sensitive clinical information through the contact flow.
+- Security reporting is documented in `SECURITY.md` and `.well-known/security.txt`.
 
-## Recommended account/DNS controls
+## Platform/account controls
 
-- Verify the custom domain in the GitHub account settings using the GitHub-provided TXT record.
-- Keep HTTPS enforcement enabled in GitHub Pages.
-- Keep DNS limited to the required GitHub Pages records; remove unused redirects/parking records.
-- Enable GitHub account two-factor authentication.
-- Review repository Actions permissions periodically.
+The following controls are GitHub or DNS settings rather than repository files and should be enabled where supported:
+
+- Branch protection/rulesets for `main`, including pull-request review and required status checks.
+- Secret scanning and push protection.
+- GitHub account two-factor authentication.
+- Verified custom domain using GitHub's TXT-record verification.
+- GitHub Pages HTTPS enforcement.
+- Protected `github-pages` environment/deployment approval rules where appropriate.
+
+## Verification
+
+After deployment, HTTP response headers and TLS configuration should be checked against the live custom domain. GitHub Pages controls those response headers; repository files cannot reliably set `X-Content-Type-Options`, `Permissions-Policy`, `Cross-Origin-*`, or other response-header-only controls.
