@@ -1,0 +1,4 @@
+Contact: mailto:aishwaryasriram2110@gmail.com
+Preferred-Languages: en
+Canonical: https://aishwaryasreenivasan.site/security.txt
+Policy: https://aishwaryasreenivasan.site/SECURITY.md
