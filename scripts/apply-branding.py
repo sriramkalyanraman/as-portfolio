@@ -25,6 +25,11 @@ BRANDING_CSS = '''
     .mobile-menu{z-index:1001;}
     html{scroll-padding-top:108px;}
 
+    /* Keep the hero image inside the hero row at every desktop zoom level. */
+    .hero{height:auto !important;min-height:0 !important;}
+    .hero-image{height:auto !important;min-height:0 !important;align-self:stretch;aspect-ratio:1.15 / 1;overflow:hidden;}
+    .hero-image img{width:100%;height:100%;max-width:none;min-width:0;min-height:0;display:block;object-fit:cover;object-position:center top;image-rendering:auto;-webkit-backface-visibility:hidden;backface-visibility:hidden;}
+
     /* Responsive safety: prevent horizontal overflow and keep every section inside the viewport. */
     html,body{width:100%;max-width:100%;overflow-x:hidden;}
     header{width:100%;min-width:0;}
@@ -34,6 +39,7 @@ BRANDING_CSS = '''
     @media(max-width:1180px){
       body{padding-top:94px;}
       .mobile-menu{top:94px;}
+      .hero-image{aspect-ratio:1.15 / 1;}
     }
 
     @media(max-width:720px){
@@ -54,7 +60,7 @@ BRANDING_CSS = '''
       .value h3,.card h3,.section h2{overflow-wrap:anywhere;}
       .actions{max-width:100%;}
       .button{max-width:100%;}
-      .hero-image{width:100%;height:118vw;min-height:360px;max-height:620px;}
+      .hero-image{width:100%;height:auto !important;min-height:0 !important;max-height:none !important;aspect-ratio:4 / 3;}
       .grid-3{width:100%;}
       .card{width:100%;}
       .contact-box{min-width:0;width:100%;}
